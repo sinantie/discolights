@@ -1,0 +1,8 @@
+{
+    "sketch": "arduino-spectral-fft-neopixels.ino",
+    "configuration": "cpu=atmega328old",
+    "board": "arduino:avr:nano",
+    "programmer": "usbasp",
+    "output": "./build",
+    "port": "/dev/tty.usbserial-142130"
+}
