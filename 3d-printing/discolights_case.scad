@@ -33,7 +33,7 @@ include <BOSL2/bottlecaps.scad>
 /* [General] */
 
 // Base, Insert or Diffuser?
-Part = "diffuser"; // [base:Base, insert:Insert, diffuser:Diffuser, baseAndInsert:Base & Insert - Preview Only, all:All - Preview Only]
+Part = "base"; // [base:Base, insert:Insert, diffuser:Diffuser, baseAndInsert:Base & Insert - Preview Only, all:All - Preview Only]
 //Part = "base"; // [base:Base, insert:Insert, diffuser:Diffuser, baseAndInsert:Base & Insert - Preview Only, all:All - Preview Only]
 //Part = "base"; // [base:Base, insert:Insert, diffuser:Diffuser, baseAndInsert:Base & Insert - Preview Only, all:All - Preview Only]
 

@@ -1,3 +1,18 @@
+/**
+ * @file arduino-spectral-fft-neopixels.ino
+ * @author Yannis Konstas (sinantie@gmail.com)
+ * @brief Based on https://github.com/david-sg/arduino-spectral-fft-neopixels uses
+ * ArduinoFFT to do a spectrum analysis of the input audio and displays it using
+ * AdaFruit Neopixel. It supports 2 different modes: a) full display of the spectrum
+ * mapped onto individual leds, and b) a 'flashing' mode that "listens" only to one
+ * low frequency band and fills all of the NeoPixel strip.
+ * 
+ * @version 0.5
+ * @date 2023-03-27
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include <arduinoFFT.h>
 #include <Adafruit_NeoPixel.h>
 //#ifdef __AVR__
@@ -8,7 +23,7 @@
 #define FUNC_PIN  2
 // Which pin on the Arduino is connected to the NeoPixels?
 #define NEO_PIN        6 // On Trinket or Gemma, suggest changing this to 1
-#define NUMPIXELS 24 // Popular NeoPixel ring size
+#define NUMPIXELS 24 // NeoPixel ring size
 Adafruit_NeoPixel pixels(NUMPIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800);
 #define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
 
@@ -46,7 +61,7 @@ double vImag[SAMPLES];
 void setup() {
   Serial.begin(115200);
   Serial.println("Starting...");
-  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.begin();
   sampling_period_us = round(1000000 * (1.0 / SAMPLING_FREQUENCY));
   pixels.clear(); // Set all pixel colors to 'off'
 
@@ -112,7 +127,7 @@ void fftMode(FUNCTION functionMode) {
       pixels.show();   // Send the updated pixel colors to the hardware.
       //    delay(500); // Pause before next pass through loop        
       if (DEBUG) {
-        /*View all these three lines in serial terminal to see which frequencies has which amplitudes*/
+        // View all these three lines in serial terminal to see which frequencies has which amplitudes
         Serial.print(shine);
         Serial.print(": ");
         Serial.print((shine * 1.0 * SAMPLING_FREQUENCY) / SAMPLES, 1);
@@ -154,21 +169,5 @@ void neoPixelConditionalColor(int i, uint32_t color, bool fill) {
   }
   else {
     pixels.setPixelColor(i, color);
-  }
-}
-
-void testNeopixels() {
-     // The first NeoPixel in a strand is #0, second is 1, all the way up
-  // to the count of pixels minus one.
-  for (int i = 0; i < NUMPIXELS - 5; i++) { // For each pixel...
-    pixels.setPixelColor(i, pixels.Color(0, 0, 153)); // blue
-    pixels.setPixelColor(i+1, pixels.Color(102, 0, 204)); // purple
-    pixels.setPixelColor(i+2, pixels.Color(0, 153, 76)); // green
-    pixels.setPixelColor(i+3, pixels.Color(255, 255, 0)); // yellow
-    pixels.setPixelColor(i+4, pixels.Color(255, 128, 0)); // orange
-    pixels.setPixelColor(i+5, pixels.Color(255, 0, 0)); // red
-    pixels.setBrightness(30);
-    pixels.show();   // Send the updated pixel colors to the hardware.
-    delay(500); // Pause before next pass through loop
   }
 }
